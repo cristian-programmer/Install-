@@ -22,7 +22,7 @@ public class TekneoConectorMain extends javax.swing.JFrame {
     public TekneoConectorMain() {
         initComponents();
         UtilitariWindows.WindowTekneo(this);
-        ManagerDirectoryAndFiles.Directory.createDirectory();
+       
     }
 
     /**

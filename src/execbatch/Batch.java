@@ -37,7 +37,7 @@ private boolean endfileinstallProgram=false;
      out.println("@echo Nodejs se esta instalando porfavor espere");
      out.println("@runas /user:COLMOTICAing  msiexec.exe /i  C:\\Users\\COLMOTICAing\\Downloads\\node-v9.4.0-x64.msi /QN /L*V \"C:\\Windows\\Temp\\msilog.log\" ");
      out.println("@echo Hola");
-     out.println("@pause");
+   
      out.println("exit");
      out.close();
      
@@ -51,6 +51,7 @@ private boolean endfileinstallProgram=false;
  
  public void runBatchInstallProgram() throws FileNotFoundException, IOException{
      PrintWriter out = new PrintWriter(FILEDEPENDENCIESJS);
+     out.println("@echo off");
      out.println("@color 02");
      out.println("@title Second Process");
      out.println("@echo Hola 2");

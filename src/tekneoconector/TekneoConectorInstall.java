@@ -11,6 +11,8 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -38,8 +40,30 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
             
             execbatch.Batch bathCode = new Batch();
          
-           ManagerDirectoryAndFiles.Directory.searchDirectory(source);
-
+          if(ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(source)){
+              System.out.println("Ya existe la aplicacion");
+          }else {
+          
+              System.out.println("Proceder install");
+             ManagerDirectoryAndFiles.Directory.createDirectory(source);
+             File fileapp = new File("./src/TekneoConectorJS/data_os");
+            String a[] = fileapp.list();
+             for(String da: a){
+                 System.out.println(da);
+             }
+             
+             File target = new File(source+"\\a.js");
+                String c[] =target.list();
+             for(String das: c){
+                 System.out.println(das.length());
+             }
+             
+                  System.out.println("Proceder install");
+                 Files.copy(fileapp.toPath(),target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                 
+             
+             
+          }
                
             
            int runComplete=bathCode.runBatchNodejs();
