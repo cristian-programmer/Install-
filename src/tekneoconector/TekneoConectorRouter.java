@@ -16,11 +16,16 @@ import javax.swing.JOptionPane;
  * @author COLMOTICAing
  */
 public class TekneoConectorRouter extends javax.swing.JFrame {
-    private  static String  pathInstall="";
+    private   String  pathInstall="";
     
     
-    public static String  getPathInstall(){
-        return pathInstall;
+    public  String  getPathInstall(){
+        return this.pathInstall;
+    }
+    
+    
+    public void  setPathInstall(String pathinstall ){
+        this.pathInstall=pathinstall;
     }
    
     /**
@@ -206,7 +211,8 @@ public class TekneoConectorRouter extends javax.swing.JFrame {
     private void nextbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextbtnActionPerformed
         // TODO add your handling code here:
         setVisible(false);
-        TekneoConectorInstall  TcInstall = new TekneoConectorInstall();
+        String source =getPathInstall();
+        TekneoConectorInstall  TcInstall = new TekneoConectorInstall(source);
         TcInstall.setVisible(true);
     }//GEN-LAST:event_nextbtnActionPerformed
 
@@ -215,6 +221,7 @@ public class TekneoConectorRouter extends javax.swing.JFrame {
         TekneoConectorAcept TcAceptBack = new TekneoConectorAcept();
         setVisible(false);
         TcAceptBack.setVisible(true);
+        
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -234,13 +241,16 @@ public class TekneoConectorRouter extends javax.swing.JFrame {
     router.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
     router.setAcceptAllFileFilterUsed(false);
     if(router.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
-        pathtxt.setText(router.getCurrentDirectory().toString());
-        System.out.println("----Directory---"+router.getCurrentDirectory().toString()+ "\\");
-        System.out.println("----Dir---"+router.getName());
-          System.out.println("----App---"+router.getApproveButtonToolTipText());
+        pathtxt.setText(router.getSelectedFile().getAbsolutePath());
         pathtxt.setEditable(true);
-       pathInstall = router.getCurrentDirectory().toString();
+       pathInstall = router.getSelectedFile().getAbsolutePath();
+
+       System.out.println("DATAA "+  pathInstall);
         nextbtn.setEnabled(true);
+        setPathInstall(pathInstall);
+        
+      
+        
         
     }else if(JFileChooser.CANCEL_OPTION ==1){
         
@@ -248,16 +258,7 @@ public class TekneoConectorRouter extends javax.swing.JFrame {
           pathtxt.setEditable(false);
           nextbtn.setEnabled(true);
         
-    }
-    
-  
-    
-       
-        
-        
-
-      
-      
+     } 
     }//GEN-LAST:event_setDirectorybtnActionPerformed
 
     

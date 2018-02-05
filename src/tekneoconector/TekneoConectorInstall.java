@@ -26,17 +26,19 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
     /**
      * Creates new form TekneoConectorSelectRoute
      */
-    public TekneoConectorInstall()   {
+   
+    public TekneoConectorInstall(String source)   {
+
         try {
             initComponents();
             UtilitariWindows.WindowTekneo(this);
             nextbtn.setEnabled(false);
-            String pathInstall =  TekneoConectorRouter.getPathInstall();
-            System.out.println("!!"+pathInstall+"!!");
+            TekneoConectorRouter tekrouter = new TekneoConectorRouter();
+          
             
             execbatch.Batch bathCode = new Batch();
          
-           ManagerDirectoryAndFiles.Directory.searchDirectory(pathInstall);
+           ManagerDirectoryAndFiles.Directory.searchDirectory(source);
 
                
             
@@ -205,9 +207,7 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
 
     private void nextbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextbtnActionPerformed
         // TODO add your handling code here:
-        setVisible(false);
-        TekneoConectorInstall TcRouter = new TekneoConectorInstall();
-        TcRouter.setVisible(true);
+       
     }//GEN-LAST:event_nextbtnActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -264,7 +264,7 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TekneoConectorInstall().setVisible(true);
+                new TekneoConectorInstall(null).setVisible(true);
             }
         });
     }

@@ -28,7 +28,7 @@ private boolean endfileinstallProgram=false;
  }   
  
  public int  runBatchNodejs() throws FileNotFoundException, IOException, InterruptedException{
-     System.out.print("OK.." +userProfile());
+    
      PrintWriter out = new PrintWriter(FILENODEBATCH);
      out.println("@echo off");
      out.println("@color 02");

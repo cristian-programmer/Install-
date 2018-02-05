@@ -28,8 +28,8 @@ public class Directory {
     public static boolean  searchDirectory(String source){
            char [] m;
            m=source.toCharArray();
-       System.out.println("Search directory," +source + "-----------------");
-       for(int i=0; i<source.length();i++){
+     
+       for(int i=0; i<m.length;i++){
           
            
        }
