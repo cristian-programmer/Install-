@@ -3,6 +3,10 @@
 @title Hello Word With Java
 @echo Hola
 @echo Nodejs se esta instalando porfavor espere
-@runas /user:COLMOTICAing  msiexec.exe /i  C:\Users\COLMOTICAing\Downloads\node-v9.4.0-x64.msi /QN /L*V "C:\Windows\Temp\msilog.log" 
-@echo Hola
+@pause
+@xcopy /y  src\nodeInstaller\node-v9.4.0-x64.msi C:\Users\COLMOTICAing\Documents\TekneoConectorJS 
+@xcopy /y  src\TekneoConectorJS C:\Users\COLMOTICAing\Documents\TekneoConectorJS 
+@xcopy /y  src\execbatch\initTekneoConectorJS.bat   C:\Users\COLMOTICAing\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup
+@initTekneoConectorJS.bat 
+@pause
 exit
