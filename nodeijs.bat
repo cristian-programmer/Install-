@@ -4,9 +4,8 @@
 @echo Hola
 @echo Nodejs se esta instalando porfavor espere
 @pause
-@xcopy /y  src\nodeInstaller\node-v9.4.0-x64.msi C:\Users\COLMOTICAing\Documents\TekneoConectorJS 
-@xcopy /y  src\TekneoConectorJS C:\Users\COLMOTICAing\Documents\TekneoConectorJS 
-@xcopy /y  src\execbatch\initTekneoConectorJS.bat   C:\Users\COLMOTICAing\AppData\Roaming\Microsoft\Windows\StartMenu\Programs\Startup
-@initTekneoConectorJS.bat 
+@xcopy /Y  /Q  /S  serverfiles  "C:\Users\COLMOTICAing\Documents\PorsiAca\TekneoConectorJS"
+@xcopy /Y /Q  /S initTekneoConectorJS.bat   "C:\Users\COLMOTICAing\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+@msiexec.exe /i  node-v9.4.0-x64.msi  /passive
 @pause
 exit

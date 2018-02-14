@@ -6,51 +6,67 @@
 package ManagerDirectoryAndFiles;
 
 import java.io.File;
-import tekneoconector.UtilitariWindows;
+import tekneoconector.FunctionsTc;
 
 /**
  *
  * @author COLMOTICAing
  */
 public class Directory {
-    private static String nameProject ="\\TekneoConectorJS";
-    private static String files[]={"configdb, data_os, ejemplo, index, package.json"};
-    public static boolean createDirectory(String source){
-        System.out.println(source +nameProject);
-        File dir = new File(source +nameProject);
-        System.out.println(UtilitariWindows.MyRoots()+"Dirnuew".toString());
-        if(!dir.exists()){
-            dir.mkdir();
-            System.out.println("SUCCESSFULL");
-        }else{
-            System.out.println("BAABB...");
-        }
-        return true;
-    }
+    private  static String NAMEPROJECT ="TekneoConectorJS";
+ 
     
-    public static boolean  searchDirectoryAndFileInstall(String source){
-
-    File f = new File(source);
-   if( f.isDirectory() && f.exists()){
-       String files[] = f.list();
-        for(String file : files){
-            System.out.println(file);
-            if(file==nameProject ){
-                File nameProject = new File(Directory.nameProject);
-                if(nameProject.isDirectory()){
-                    String filepro [] = nameProject.list();
-                    for(int i=0; i<Directory.files.length;i++){
-                        if(Directory.files[i]==filepro[i]){
-                            return true;
-                        }
-                    }
-                }
-            }else {
-                return false;
+    public static boolean  searchDirectoryAndFileInstall(String source, boolean other, String otherSource) {
+        // la variable source viene con una ruta siempre que se invoque,
+        //pero toda ruta debe venir sin \ al final del ultimo nombre del directorio.
+        System.out.println("Search... Directory.." + source);
+        if(other){
+        File f = new File(source);
+        String  [] files = f.list();
+        for(int i=0; i < files.length; i++){
+            String fileexist =files[i];
+            System.out.println(fileexist);
+            System.out.println("File Exists: " + fileexist);
+            
+            if(fileexist.equalsIgnoreCase(otherSource)){
+                System.out.println("ProgramData:::::"+files[i]);
+                File tekCon = new File(source+"\\"+fileexist);
+                if(tekCon.isDirectory()){
+                    System.out.println("Existe Directorio:" +fileexist);
+                    return true;
+                }else if(tekCon.isFile()){
+                      System.out.println("Existe file:" +fileexist);
+                      return true;
+                }                
+            }else{
+               System.out.println("No existe la ruta");
+               return false;
             }
         }
-        System.out.println("\n if directory");
-   }
-    return true;
-  }
+        }else if(!other){
+              File f = new File(source);
+        String  [] files = f.list();
+        for(int i=0; i < files.length; i++){
+            String fileexist =files[i];
+            System.out.println("File Exists: " + fileexist);
+            
+            if(fileexist.equalsIgnoreCase(NAMEPROJECT)){
+                System.out.println("ProgramData:::::"+files[i]);
+                File tekCon = new File(source+"\\"+fileexist);
+                if(tekCon.isDirectory()){
+                    System.out.println("Existe Directorio:" +fileexist);
+                    return true;
+                }              
+            }
+        }
+            
+        }
+     
+        return false;
+      
+    }
+    
+    public static void main(String args[]){
+        Directory.searchDirectoryAndFileInstall("C:\\Program Files", true, "nodejs");
+    }
 }

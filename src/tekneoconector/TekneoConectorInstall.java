@@ -8,16 +8,25 @@ package tekneoconector;
 import execbatch.Batch;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.io.InputStreamReader;
+
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.processing.Processor;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.xml.bind.ParseConversionEvent;
+import nodeInstaller.prueba;
+
 
 /**
  *
@@ -28,50 +37,89 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
     /**
      * Creates new form TekneoConectorSelectRoute
      */
+    
+
+    Timer t;
+    int i=0;
    
     public TekneoConectorInstall(String source)   {
-
+     
+     
+   
+         ActionListener action = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+           String source ="C:\\Program Files";
+           if(ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(source, true, "nodejs")==false){
+                String msg1="instalando archivos porfavor espere..";
+                       msjlbl.setText(msg1);  
+                
+            }else{
+                if(t.isRunning()){
+                   t.stop();
+                   msjlbl.setText("Instalacion finalizada");
+                 
+                   nextbtn.setEnabled(true);
+                   nextbtn.setText("Finalizar");
+                   }
+               }
+        }
+    };
+        
+        System.out.println("install rote: "+source);
         try {
+            
             initComponents();
-            UtilitariWindows.WindowTekneo(this);
+            FunctionsTc.WindowTekneo(this);
             nextbtn.setEnabled(false);
-            TekneoConectorRouter tekrouter = new TekneoConectorRouter();
+            
           
             
             execbatch.Batch bathCode = new Batch();
-         
-          if(ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(source)){
-              System.out.println("Ya existe la aplicacion");
+         //compruebo si existe TekneoConectorJS en el source que pasa por defecto o la que toma el cliente.
+         //al pasar false,comunica que  no buscara otra carpeta mas que la de la app
+         // al pasar "" como no busca otra carpeta diferente solo se agrega para que no busque nada mas.
+          if(ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(source, false, "")){
+              
+              System.out.println("Ya existe la aplicacion"+ source);
+              JOptionPane.showConfirmDialog(null, "Ya existe la aplicacion", "Message", JOptionPane.OK_OPTION);
+              System.exit(0);
           }else {
+          System.out.println("instalando espere porfavor....");
+          System.out.println();
           
-//             ManagerDirectoryAndFiles.Directory.createDirectory(source);
-//             File fileapp = new File("./src/TekneoConectorJS/data_os");
-//            String a[] = fileapp.list();
-//             for(String da: a){
-//                 System.out.println(da);
-//             }
-//             
-//             File target = new File(source+"\\a.js");
-//                String c[] =target.list();
-//             for(String das: c){
-//                 System.out.println(das.length());
-//             }
-//             
-//                  System.out.println("Proceder install");
-//                 Files.copy(fileapp.toPath(),target.toPath(), StandardCopyOption.REPLACE_EXISTING);  System.out.println("Proceder install");
-            
-                 
+           int runComplete=bathCode.runBatchNodejs(source);
+           if (runComplete==0){
+              
+               System.out.println("Completado los comandos batch");
+               
+             String pathNodejs = FunctionsTc.MyRoots() + "\\Program Files";
+             t = new Timer(100,action);
              
+            t.start();
+             
+//                 ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(source, true, "nodejs");
+//                      msjlbl.setText("Espere mientra instala los programas necesarios..");
+//                
+//                if(ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(pathNodejs, true, "nodejs")){
+//                      msjlbl.setText("Se ha instalado Tekneo Conector " + pathNodejs);
+////                      msjlbl.setText("Se ha instalado Tekneo Conector");
+//               nextbtn.setEnabled(true);
+//                }else{
+//                        msjlbl.setText("no se encontro nodejs " + pathNodejs);
+//                 }
+                       
+               
+           }else{
+               
+                msjlbl.setText("La instalación ha fallado");
+                nextbtn.setText("Finalizar");
+           }
              
           }
                
             
-           int runComplete=bathCode.runBatchNodejs(source);
-           if (runComplete==0){
-              
-               System.out.println("Completado");
-               
-           }
+        
             
         } catch (IOException ex) {
             
@@ -102,7 +150,7 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        msjlbl = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
 
@@ -138,7 +186,7 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
 
         jLabel4.setText("Luego de terminar la instalacion puede continuar");
 
-        jLabel5.setText("Espere Mientras se Instalan Los programas.... ");
+        msjlbl.setText("Espere Mientras se Instalan Los programas.... ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -152,7 +200,7 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(msjlbl))
                 .addGap(23, 37, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -168,7 +216,7 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(msjlbl)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -242,7 +290,85 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private boolean CheckProcessTask(){
+        
+        try {
+                    int contmsi=0;
+                    List <String >  procesos = new ArrayList<String>();
+                    String line;
+                    Process procs = Runtime.getRuntime().exec("tasklist.exe /nh");
+                    BufferedReader input = new BufferedReader(new InputStreamReader(procs.getInputStream()));
+                    System.out.println("PASEE");
+                    while ((line = input.readLine())!=null ){
+
+                        if(!line.trim().equals("")){
+                            procesos.add(line.substring(0, line.indexOf(" ")));
+                            
+                        }
+                    }
+                    input.close();
+                    
+                    for(int i=0; i<procesos.size();i++){
+
+                        System.out.println(procesos.get(i));
+                        if(procesos.get(i).equals("msiexec.exe")){
+                            System.out.println(".......ENCONTRADO...........");
+                             contmsi++;
+                            
+                        }
+                    }
+                    
+                    if(contmsi==1){
+                        return true;
+                    }
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(prueba.class.getName()).log(Level.SEVERE, null, ex);
+                }  
+        
+        return false;
+    }
     
+    
+       private boolean ExistAllFilesNode() {
+        int tam_files=0;
+          
+            String  [] files = {"node.exe","nodevars.bat", "node_etw_provider.man",
+                "node_modules", "node_perfctr_provider.man", "npm", "npm.cmd", "npx",
+               "npx.cmd"}; 
+            String source="C:\\Program Files\\nodejs";
+            for(int j=0; j < files.length; j++){
+                if(ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(source, true, files[j])){
+                    tam_files++;
+                    
+                }else{
+                        System.out.println("No hay resultados");
+                }
+                System.out.println(+tam_files+ " : "+ files.length);
+                
+                if(tam_files==(files.length)){
+                    
+                    return true;
+                }
+                
+            }
+       return false;
+   }       
+       
+       private boolean contentExistFiles(){
+           
+           try {
+              if(ExistAllFilesNode()){
+                     return true;
+                }else{
+                      return false;
+                 }
+           } catch (Exception e) {
+                     return false;
+           }
+     
+       
+       }
     /**cdsc
      * @param args the command line arguments
      */
@@ -269,23 +395,7 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(TekneoConectorInstall.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
+      
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TekneoConectorInstall(null).setVisible(true);
@@ -300,10 +410,12 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel msjlbl;
     private javax.swing.JButton nextbtn;
     // End of variables declaration//GEN-END:variables
+   
+
 }

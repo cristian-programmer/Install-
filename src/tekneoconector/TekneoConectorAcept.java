@@ -20,7 +20,7 @@ public class TekneoConectorAcept extends javax.swing.JFrame {
      */
     public TekneoConectorAcept() {
         initComponents();
-        UtilitariWindows.WindowTekneo(this);
+        FunctionsTc.WindowTekneo(this);
         nextbtn.setEnabled(false);
     }
 

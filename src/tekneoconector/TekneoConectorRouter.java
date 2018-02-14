@@ -33,9 +33,9 @@ public class TekneoConectorRouter extends javax.swing.JFrame {
      */
     public TekneoConectorRouter() {
         initComponents();
-        UtilitariWindows.WindowTekneo(this);
-        nextbtn.setEnabled(false);
-        pathtxt.setText(UtilitariWindows.getUserSO());
+        FunctionsTc.WindowTekneo(this);
+        
+        pathtxt.setText(FunctionsTc.getUserSO());
         pathtxt.setEditable(false);
     }
 
@@ -212,8 +212,20 @@ public class TekneoConectorRouter extends javax.swing.JFrame {
         // TODO add your handling code here:
         setVisible(false);
         String source =getPathInstall();
-        TekneoConectorInstall  TcInstall = new TekneoConectorInstall(source);
-        TcInstall.setVisible(true);
+        if(source==""){
+            System.out.println("\n  source vacio;"+source);
+            source="C:\\Users\\COLMOTICAing\\Documents";
+            System.out.println("\n  source vacio tomando data;"+source);
+            
+                TekneoConectorInstall  TcInstall = new TekneoConectorInstall(source);
+                TcInstall.setVisible(true);
+        
+        }else if(source.length()>0){
+                 System.out.println("\n Dto source lleno \n"+source);
+                 TekneoConectorInstall  TcInstall = new TekneoConectorInstall(source);
+                 TcInstall.setVisible(true);
+        }
+   
     }//GEN-LAST:event_nextbtnActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -234,7 +246,7 @@ public class TekneoConectorRouter extends javax.swing.JFrame {
 //      File f = mydirectory.getSelectedFile();
 //      String namefile = f.getAbsolutePath();
 //      pathtxt.setText(namefile)
-    String data=UtilitariWindows.getUserSO();
+    String data=FunctionsTc.getUserSO();
    
   
     router.setDialogTitle("Tekneo Conector");
@@ -254,9 +266,12 @@ public class TekneoConectorRouter extends javax.swing.JFrame {
         
     }else if(JFileChooser.CANCEL_OPTION ==1){
         
-          pathtxt.setText(UtilitariWindows.getUserSO());
+          pathInstall = "C:\\Users\\COLMOTICAing\\Documents";
+          pathtxt.setText(pathInstall);
           pathtxt.setEditable(false);
-          nextbtn.setEnabled(true);
+          setPathInstall(pathInstall);
+           System.out.println("DATAACANCEL "+  pathInstall);
+    
         
      } 
     }//GEN-LAST:event_setDirectorybtnActionPerformed
