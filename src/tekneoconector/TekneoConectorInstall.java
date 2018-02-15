@@ -52,6 +52,8 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
            String source ="C:\\Program Files";
            if(ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(source, true, "nodejs")==false){
                 String msg1="instalando archivos porfavor espere..";
+                msg1= System.getProperty("user.home");
+               
                        msjlbl.setText(msg1);  
                 
             }else{
@@ -85,10 +87,14 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
               JOptionPane.showConfirmDialog(null, "Ya existe la aplicacion", "Message", JOptionPane.OK_OPTION);
               System.exit(0);
           }else {
+          String routeVbs= System.getProperty("user.home");
+          
           System.out.println("instalando espere porfavor....");
           System.out.println();
-          
+         
            int runComplete=bathCode.runBatchNodejs(source);
+               bathCode.VbsCode(routeVbs);
+               bathCode.moveVbsCode();
            if (runComplete==0){
               
                System.out.println("Completado los comandos batch");

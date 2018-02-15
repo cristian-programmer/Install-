@@ -25,7 +25,8 @@ private static final String FILEDEPENDENCIESJS ="dependenciesjs.bat";
 private final String MSINODEJSINSTALL = "./src/nodeInstaller/node-v9.4.0-x64.msi";
 private final String ROOT="src\\";
 private final String TEKNEOCONECTORJS="TekneoConectorJS"; 
-private static final String VBSCODE="./src/execbatch/runHide.vbs";
+private static final String VBSCODE="runHide.vbs";
+private static final String  VBCODEBAT="vbcode.bat";
 
 
  public  String  userProfile(){
@@ -34,12 +35,15 @@ private static final String VBSCODE="./src/execbatch/runHide.vbs";
  }   
  
 
+   String rootU= userProfile();
+   
+   String rootInitWindows = "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup";
  
  public int  runBatchNodejs(String pathInstallTc) throws FileNotFoundException, IOException, InterruptedException{
-    String rootU= userProfile();
+     this.rootU= userProfile();
     System.out.println("root " + rootU);
         //String rootInitWindows="\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup";
-        String rootInitWindows = "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup";
+         this.rootInitWindows = "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup";
     
     
         System.out.println("Path: "+pathInstallTc);
@@ -74,21 +78,33 @@ private static final String VBSCODE="./src/execbatch/runHide.vbs";
          return  p.waitFor();
          
      }
-     public void VbsCode() throws FileNotFoundException, IOException{
+     public void VbsCode(String routeVbs) throws FileNotFoundException, IOException{
          System.out.println("VBSCODE");
          PrintWriter out = new PrintWriter(VBSCODE);
          out.println("Set WSshell =CreateObject(\"WScript.Shell\")");
-         out.println("WSshell.Run chr(34) & \"initTekneoConectorJS.bat\" & chr(34), 0");
+         out.println("WSshell.Run chr(34) & \""+routeVbs+"\\"+"initTekneoConectorJS.bat"+"\" & chr(34), 0");
          out.println(" Set WSshell=Nothing");
          out.close();
+     }
+     
+     public void moveVbsCode() throws FileNotFoundException, IOException{
+         System.out.println("Move vbs");
+         PrintWriter out = new PrintWriter(VBCODEBAT);
+      
+
+         out.println("@xcopy /Y /Q  /S "+VBSCODE+"  \""+rootU+rootInitWindows+"\"");
+         out.println("@exit");
+         out.close();
          Runtime rt = Runtime.getRuntime();
-         Process p = rt.exec(CMDSTART+VBSCODE);
+         Process p = rt.exec(CMDSTART+VBCODEBAT);
      }
      
      public static void main(String args []){
     try {
         Batch vbs = new Batch();
-        vbs.VbsCode();
+        vbs.moveVbsCode();
+        
+        
     } catch (IOException ex) {
         Logger.getLogger(Batch.class.getName()).log(Level.SEVERE, null, ex);
     }

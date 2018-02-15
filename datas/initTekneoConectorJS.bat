@@ -1,2 +1,1 @@
-@echo hola mundo
-@echo %USERNAME%
+node "C:\Users\COLMOTICAing\Desktop\scriptJsBDconection\index.js"
