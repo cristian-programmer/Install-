@@ -51,12 +51,21 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
         public void actionPerformed(ActionEvent ae) {
            String source ="C:\\Program Files";
            if(ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(source, true, "nodejs")==false){
-                String msg1="instalando archivos porfavor espere..";
-                msg1= System.getProperty("user.home");
-               
+                String msg1="instalando archivos porfavor espere.." + i++;
                        msjlbl.setText(msg1);  
+                       
+                       if(i==1100){
+                            if(t.isRunning()){
+                  
+                            t.stop();
+                            msjlbl.setText("Instalacion finalizada");
+
+                            nextbtn.setEnabled(true);
+                            nextbtn.setText("Finalizar");
+                            }
+                       }
                 
-            }else{
+            }else if(ManagerDirectoryAndFiles.Directory.searchDirectoryAndFileInstall(source, true, "nodejs")==true){
                 if(t.isRunning()){
                    t.stop();
                    msjlbl.setText("Instalacion finalizada");
@@ -91,10 +100,13 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
           
           System.out.println("instalando espere porfavor....");
           System.out.println();
-         
-           int runComplete=bathCode.runBatchNodejs(source);
+               bathCode.initTekneoConector(source);
                bathCode.VbsCode(routeVbs);
                bathCode.moveVbsCode();
+           int runComplete=bathCode.runBatchNodejs(source, routeVbs);
+          
+            
+               
            if (runComplete==0){
               
                System.out.println("Completado los comandos batch");
@@ -157,6 +169,7 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         msjlbl = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
 
@@ -194,12 +207,17 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
 
         msjlbl.setText("Espere Mientras se Instalan Los programas.... ");
 
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/logo.png"))); // NOI18N
+        jLabel11.setText("jLabel7");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(281, 281, 281)
+                .addGap(2, 2, 2)
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,6 +242,9 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(msjlbl)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
 
         jButton1.setText("Volver");
@@ -285,6 +306,8 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
 
     private void nextbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextbtnActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Debe reiniciar la computadora para que el programa comienze a trabajar");
+        System.exit(0);
        
     }//GEN-LAST:event_nextbtnActionPerformed
 
@@ -413,6 +436,7 @@ public class TekneoConectorInstall extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

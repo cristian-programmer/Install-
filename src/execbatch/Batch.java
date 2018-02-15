@@ -27,6 +27,7 @@ private final String ROOT="src\\";
 private final String TEKNEOCONECTORJS="TekneoConectorJS"; 
 private static final String VBSCODE="runHide.vbs";
 private static final String  VBCODEBAT="vbcode.bat";
+private static final String INIT_TEKNEO="initTekneoConectorJS.bat";
 
 
  public  String  userProfile(){
@@ -39,7 +40,7 @@ private static final String  VBCODEBAT="vbcode.bat";
    
    String rootInitWindows = "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup";
  
- public int  runBatchNodejs(String pathInstallTc) throws FileNotFoundException, IOException, InterruptedException{
+ public int  runBatchNodejs(String pathInstallTc, String routeVbs) throws FileNotFoundException, IOException, InterruptedException{
      this.rootU= userProfile();
     System.out.println("root " + rootU);
         //String rootInitWindows="\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup";
@@ -58,7 +59,7 @@ private static final String  VBCODEBAT="vbcode.bat";
          out.println("@md \""+pathInstallTc+"\\"+TEKNEOCONECTORJS+"\"");
          out.println("@xcopy /Y  /Q  /S  serverfiles  \""+pathInstallTc +"\\"+ TEKNEOCONECTORJS +"\"");
 
-         out.println("@xcopy /Y /Q  /S initTekneoConectorJS.bat "+ "  \""+rootU+rootInitWindows+"\"");
+         out.println("@xcopy /Y /Q  /S initTekneoConectorJS.bat \""+routeVbs+"\"");
          out.println("@msiexec.exe /i  node-v9.4.0-x64.msi  /passive");
          System.out.println("path Complete; "+pathInstallTc+"\\"+TEKNEOCONECTORJS+"\\node-v9.4.0-x64.msi");
         // out.println("@\""+rootU+rootInitWindows+"\\initTekneoConectorJS.bat\"");
@@ -99,6 +100,13 @@ private static final String  VBCODEBAT="vbcode.bat";
          Process p = rt.exec(CMDSTART+VBCODEBAT);
      }
      
+     public void initTekneoConector(String source) throws FileNotFoundException{
+         String source_ = source.replace("\' '", "");
+         System.out.println("initTekneoConector");
+         PrintWriter out = new PrintWriter(INIT_TEKNEO);
+         out.println("node \""+source_+"\\TekneoConectorJS\\index.js\"");
+         out.close();
+     }
      public static void main(String args []){
     try {
         Batch vbs = new Batch();
