@@ -1,1 +1,1 @@
-node "C:\Users\COLMOTICAing\Desktop\scriptJsBDconection\index.js"
+node "C:\Users\COLMOTICAing\Desktop\Nueva Carpeta (2)\TekneoConectorJS\index.js"
